@@ -1,6 +1,7 @@
 package co.edu.uptc.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -11,20 +12,15 @@ public class Readings {
 		this.connection = connection;
 	}
 
-	public void executeQuery() {
-		String sqlQuery = "SELECT * FROM EMPLEADOS";
-		boolean emptyRow;
-		try(java.sql.Statement statement = connection.createStatement()){
-			try(ResultSet resultSet = statement.executeQuery(sqlQuery)){
-				while(emptyRow = resultSet.next()){
-					int idEmpleado = resultSet.getInt("idEmpleado");
-					String nombreEmpleado = resultSet.getString("nombre");
-					String apellidoEmpleado = resultSet.getString("apellido");
-					int edad = resultSet.getInt("edad");
-					System.out.println("IdEmpleado: "+idEmpleado+" Nombre: "+nombreEmpleado+" Apellido: "+apellidoEmpleado+" Edad: "+edad);
-				}
-			}
-		} catch (SQLException e) {
+	public void getEmployeeFromDb(int idEmpleado) {
+		String readEmployeeQuery = "SELECT * FROM EMPLEADOS WHERE idEmpleado =?";
+		
+		boolean emptyRow = false;
+
+		try(PreparedStatement preparedStatement = connection.prepareStatement(readEmployeeQuery)){
+			preparedStatement.setInt(1, idEmpleado);
+			preparedStatement.executeUpdate();
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 	}

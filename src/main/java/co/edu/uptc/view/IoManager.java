@@ -8,6 +8,10 @@ public class IoManager {
 		
 	}
 	
+	public void printMessage(String message) {
+		JOptionPane.showMessageDialog(null,message);
+	}
+	
 	public int readInt(String message) {
 		return Integer.parseInt(JOptionPane.showInputDialog(message));
 	}
